@@ -1,0 +1,151 @@
+:root{
+    --color-primary : #F5F8DE;
+    --color-primaryshadow : #EDF0D2;
+    --color-secondary : #EA6386;
+    --color-primary-dark : #222222;
+    --color-primaryshadow-dark : #202020;
+    --color-secondary-dark : #CC2936;
+
+    --font-color : #2E2E2E;
+    --font-color-dark: #CECECE;
+    --font-color-active: #FFFFFF;
+
+    --shadow : 1px 2px 6px #00000040, -1px -2px 6px #FFFFFF40;
+    --inset-shadow : inset 1px 2px 2px #00000040, inset -1px -2px 3px #FFFFFF40;
+}
+*{
+    font-family: 'Nunito', sans-serif;
+    user-select: none;
+}
+body{
+    background-color: var(--color-primary);
+}
+
+.container{
+    /* background-color: #222222; */
+    max-width: 800px;
+    /* min-height: 100vh; */
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+/*! ****************************************/
+/*! **********HEADER************************/
+/*! ****************************************/
+.header{
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--color-primaryshadow);
+    border-radius: 2.5rem;
+    box-shadow: var(--inset-shadow);
+}
+.header__button{
+    border: none;
+    border-radius: 2.5rem;
+    font-size: 1.125em;
+    font-weight: 700;
+    width: 120px;
+    height: 40px;
+    background-color: transparent;
+    color: var(--font-color);
+    outline: none;
+}
+.header__button--active{
+    background-color: var(--color-secondary);
+    color: var(--font-color-active);
+}
+
+/*! ****************************************/
+/*! **********MAIN TIMER********************/
+/*! ****************************************/
+.timer{
+    position: relative;
+    display: block;
+    width: 380px;
+    height: 380px;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--color-primary);
+    border-radius: 100%;
+    box-shadow: var(--shadow);
+}
+.timer::after{
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: 100%;
+    background-color: var(--color-primaryshadow);
+    width: 330px;
+    height: 330px;
+    top: calc(50% - 165px);
+    left: calc(50% - 165px);
+    box-shadow: var(--inset-shadow);
+}
+.timer svg{
+    z-index: 99;
+    height: 330px;
+    width: 330px;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.timer svg circle{
+    fill: transparent;
+    stroke: var(--color-secondary);
+    stroke-width: 10;
+    stroke-linecap: round;
+}
+.active{
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation-name: animate;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+@keyframes animate{
+    100%{
+        stroke-dashoffset: 60;
+    }
+}
+
+.counter{
+    margin: 0;
+    position: absolute;
+    z-index: 109;
+    font-size: 96px;
+    font-weight: 700;
+    color: var(--font-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.state{
+    margin: 0;
+    position: absolute;
+    z-index: 109;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--font-color);
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*! ****************************************/
+/*! **********CONFIG********************/
+/*! ****************************************/

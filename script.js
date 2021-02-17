@@ -53,7 +53,7 @@ function run(){
         audioMetronome.play();
         time--;
         //! VER ESTO AL VOLVER
-        bar.set((timer.pomodoro - time)/timer.pomodoro);
+        bar.set((timer.key(pomodoroState) - time)/timer.key(pomodoroState));
         if(time < 0) switchPomodoroState();
         else updateLabel();
     }
@@ -172,6 +172,10 @@ apply.addEventListener('click',e =>{
     reset(0);
     setTheme();
     configButton.classList.add('hidden');
+    for(let e of child){
+        e.classList.remove('header__button--active');
+    }
+    child[0].classList.add('header__button--active');
     audioClick.play();
 })
 document.querySelector('.color-mode').addEventListener('click', e =>{

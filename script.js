@@ -1,3 +1,6 @@
+const audioAlarm = new Audio('./asset/alarm.mp3');
+const audioClick = new Audio('./asset/click.wav');
+const audioMetronome = new Audio('./asset/metronome.flac');
 const nav = document.querySelector('.header');
 const child = nav.children;
 const timerButton = document.querySelector('#timer')
@@ -37,12 +40,20 @@ let interval;
 loadSettings();
 setTheme();
 let time = timer.key(0);
+
 resetBar();
 updateLabel();
-
+configAudio();
+function configAudio(){
+    audioMetronome.volume = 0.5;
+    audioAlarm.volume = 0.8;
+}
 function run(){
     if(playPause){
+        audioMetronome.play();
         time--;
+        //! VER ESTO AL VOLVER
+        bar.set((timer.pomodoro - time)/timer.pomodoro);
         if(time < 0) switchPomodoroState();
         else updateLabel();
     }
@@ -64,9 +75,12 @@ function switchPomodoroState(){
         pomodoroState = pomodoroState == 2 ? pomodoroState = 0 : pomodoroState = 2;
     }
     time = timer.key(pomodoroState);
-    interval = setInterval(run, 1000);
+    audioAlarm.play();
+    setTimeout(()=>{
+        interval = setInterval(run, 1000);
+    },5000);
     resetBar();
-    bar.animate(1, {duration : barTime});
+    //bar.animate(1, {duration : barTime});
     for(let e of child){
         e.classList.remove('header__button--active');
     }
@@ -110,6 +124,7 @@ function validationTime(x){
 //! EVENTOS/////////////////////////////////////////////////////
 nav.addEventListener('click', e =>{
     if(e.target.nodeName == 'BUTTON'){
+        audioClick.play();
         let i = parseInt(e.target.getAttribute('data-id'),10);
         reset(i);
         for(let e of child){
@@ -128,17 +143,22 @@ timerButton.addEventListener('click', ()=>{
     }
 
     if(playPause){
-        bar.animate(1, {duration : barTime});
+        //bar.animate(1, {duration : barTime});
         state.textContent = 'pause';
+        audioClick.play();
     }
     else{
         bar.stop();
         barTime = barTimeBackup - (bar.value() * barTimeBackup);
         state.textContent = 'play';
+        audioClick.play();
     }
 })
 configButton.addEventListener('click', e =>{
-    if(e.target.nodeName == 'svg' ||e.target.nodeName == 'path') configButton.classList.remove('hidden');
+    if(e.target.nodeName == 'svg' ||e.target.nodeName == 'path'){
+        configButton.classList.remove('hidden');
+        audioClick.play();
+    }
 })
 apply.addEventListener('click',e =>{
     const pomo = parseInt(document.querySelector('#input-pomodoro').value,10);
@@ -152,6 +172,7 @@ apply.addEventListener('click',e =>{
     reset(0);
     setTheme();
     configButton.classList.add('hidden');
+    audioClick.play();
 })
 document.querySelector('.color-mode').addEventListener('click', e =>{
     const childr = document.querySelector('.color-mode').children;
@@ -175,7 +196,7 @@ function setTheme(){
         document.body.classList.remove('dark');
         document.querySelector('#white').classList.add('active');
         document.querySelector('#dark').classList.remove('active');
-        bar.path.attributes[1].value = '#EA6386'
-        bar.trail.attributes[1].value = '#EA6386'
+        bar.path.attributes[1].value = '#5376b2'
+        bar.trail.attributes[1].value = '#5376b2'
     }
 }
